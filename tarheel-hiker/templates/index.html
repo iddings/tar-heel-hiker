@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Tar Heel Hiker</title>
+        <link rel="stylesheet" href="/node_modules/angular-material/angular-material.min.css">
+        <link rel="stylesheet" href="/node_modules/openlayers/dist/ol.css">
+        <link rel="stylesheet" href="/asset/hiker.css">
+        <base href="/">
+    </head>
+    <body>
+        
+        <ui-view>
+            <div class="loader-overlay">
+                Tar Heel Hiker Loading...
+            </div>
+        </ui-view>
+        
+        <!-- RequireJS / main app -->
+        <script src="/asset/scripts/r.js"></script>
+        <script>
+            // obtain requirejs config
+            require(['require', '/asset/scripts/require-config.js'], function (require, config) {
+                window.require.config(config);
+                // load app
+                require(['src/main']);
+            });
+        </script>
+        
+    </body>
+</html>

@@ -1,0 +1,54 @@
+<div layout-fill layout="column">
+    <md-toolbar>
+        <h1 class="md-toolbar-tools" layout="row">
+            <md-button aria-label="Open Menu" hide-gt-sm class="md-icon-button" ng-click="toggleNodeNav()">
+                <md-icon>
+                    <ng-md-icon icon="{{ nodeNavIsOpen() ? 'arrow_back' : 'menu' }}"></ng-md-icon>
+                </md-icon>
+            </md-button>
+            <span>Tar Heel Hiker</span>
+        </h1>
+    </md-toolbar>
+    <div flex layout="row">
+        <md-sidenav
+            style="height: 100%;"
+            class="md-sidenav-left"
+            md-is-locked-open="$mdMedia('gt-sm')"
+            md-whiteframe="4"
+            md-component-id="node-nav">
+            <md-content>
+                <md-list class="md-no-padding" ng-click="toggleNodeNav()">
+                    <md-list-item aria-label="Hike Overview" ng-href="/hike/{{ hike.slug }}" ng-class="!currentNode ? 'active' : ''">
+                        Overview
+                    </md-list-item>
+                    <md-list-item aria-label="{{ node.title }}" ng-repeat="node in hike.nodes" ng-href="/hike/{{ hike.slug }}/{{ node.id }}"
+                        ng-class="currentNode.id === node.id ? 'active' : ''">
+                        <span ng-bind="node.title"></span>
+                    </md-list-item>
+                </md-list>
+            </md-content>
+        </md-sidenav>
+        <md-content layout-padding flex md-scroll-y layout="column">
+            <div class="md-padding md-padding-v" layout="row" layout-align="start end">
+                <span class="md-display-1 md-padding md-padding-h">{{ hike.title }}</span>
+                <span class="md-headline">
+                    {{ hike.location.city }},
+                    {{ hike.location.state }},
+                    {{ hike.location.country }}
+                </span>
+            </div>
+            <div layout="column" flex layout-gt-sm="row">
+                <div class="md-padding" flex-gt-sm="50">
+                    <div ng-if="!currentNode" class="plain-text">{{ hike.about }}</div>
+                    <div ng-if="currentNode">
+                        <div class="md-subhead" hide-gt-sm>{{ currentNode.title }}</div>
+                        <div>
+                            <div media="media" ng-repeat="media in currentNode.media"></div>
+                        </div>
+                    </div>
+                </div>
+                <openlayers flex map="map"></openlayers>
+            </div>
+        </md-content>
+    </div>
+</div>

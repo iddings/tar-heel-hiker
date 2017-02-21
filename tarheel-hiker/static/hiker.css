@@ -1,0 +1,21 @@
+.md-no-padding {
+    padding: 0;
+}
+
+md-list-item.active {
+    background-color: rgba(158,158,158,0.2);
+}
+
+.md-padding-h {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.md-padding-v {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.plain-text {
+    white-space: pre-wrap;
+}
