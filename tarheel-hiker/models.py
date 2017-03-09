@@ -33,6 +33,18 @@ class Hike(Resource):
     def hike_overview(self, hike_slug):
         return hiker.hikes.find({"slug": hike_slug})[0]
 
+
+class Media(Resource):
+    
+    def get(self, media_id=None):
+        if media_id is not None:
+            return self.get_media(media_id)
+        return "search media!"
+        
+    def get_media(self, media_id):
+        return hiker.media.find({"_id": ObjectId(media_id)})[0]
+
+
 class Node(Resource):
     
     def get(self, node_id=None):

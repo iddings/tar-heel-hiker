@@ -7,17 +7,39 @@
     "_id": "",
     
     "location": {
+      
       "city": "",
       "country": "",
       "state": ""
+      
     },
     
     /** @type ObjectId[] */
     "nodeIds": [],
+
+    /* Number of each rating for a hike 1-5 */
+    "ratingCounts": [0, 0, 0, 0, 0],
     
     "schemaVersion": "0.1",
+    
     "slug": "",
+    
     "title": ""
+    
+  },
+  
+  "media": {
+    
+    /** @type ObjectId */
+    "_id": "",
+    
+    "filename": "",
+
+    "properties": {},
+    
+    "schemaVersion" : "0.1",
+    
+    "type": ""
     
   },
   
@@ -27,14 +49,17 @@
     "_id": "",
     
     "location": {
+      
       "latitude": 0.0,
       "longitude": 0.0
+      
     },
     
-    /** @type Object[] */
-    "media": [],
+    /** @type ObjectId[] */
+    "mediaIds": [],
     
     "schemaVersion": "0.1",
+    
     "title": ""
     
   }

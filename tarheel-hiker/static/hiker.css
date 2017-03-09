@@ -1,3 +1,7 @@
+.image-preview {
+    background-size: cover;
+}
+
 .md-no-padding {
     padding: 0;
 }
@@ -18,4 +22,12 @@ md-list-item.active {
 
 .plain-text {
     white-space: pre-wrap;
+}
+
+.rating ng-md-icon {
+    fill: currentColor;
+}
+
+.rating.disabled ng-md-icon {
+    opacity: 0.25;
 }
