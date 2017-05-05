@@ -23,17 +23,44 @@ def register_routes(app):
         
 def register_api(api):
     
-    from models import Hike, Media, Node
+    from flask import abort, jsonify
+    from flask_restful import reqparse, Resource
+    from sqlalchemy.orm import sessionmaker
+    from sqlalchemy import create_engine
     
-    api.add_resource(Hike,
+    #from constants import api
+    from models import Hike
+
+    engine = create_engine("mysql://root:tarheels2009@localhost/hiker")
+    
+    Session = sessionmaker(bind=engine)
+    
+    def catch_errors(fn):
+        def wrapper(self, hike_slug=None):
+            res = fn(self, hike_slug)
+            return res if res else abort(404)
+        return wrapper
+    
+    class HikeREST(Resource):
+        
+        @catch_errors
+        def get(self, hike_slug=None):
+            if hike_slug == "top":
+                return Session().query(Hike).join(Hike.location).limit(10).all()
+            elif hike_slug:
+                return self.hike_overview(hike_slug)
+            else:
+                # TODO: Implement search
+                return abort(501)
+
+        def hike_overview(self, hike_slug):
+            session = Session()
+            result = session.query(Hike).join(Hike.location).join(Hike.collections).filter(Hike.slug == hike_slug).first()
+            json_result = jsonify(result)
+            session.close()
+            return json_result
+    
+    api.add_resource(HikeREST,
         '/h/',
         '/h/<string:hike_slug>')
         
-        
-    api.add_resource(Media,
-        '/m/',
-        '/m/<string:media_id>')
-        
-    api.add_resource(Node,
-        '/n/',
-        '/n/<string:node_id>')

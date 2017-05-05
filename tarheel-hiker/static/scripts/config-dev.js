@@ -5,8 +5,8 @@ define({
   // CDN's preferred when appropriate version is available
   paths: {
     
-    // aframe 0.5.0
-    'aframe'       : ['//aframe.io/releases/0.5.0/aframe.min', 'node_modules/aframe/dist/aframe-master'],
+    // aframe dev
+    'aframe'       : ['//cdn.rawgit.com/aframevr/aframe/c59278c86cd9c9200458c5b89ba48c53c3d8fc55/dist/aframe-master.min'],
     
     // angular 1.6.2
     'angular'      : ['//ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min', 'node_modules/angular/angular.min'],

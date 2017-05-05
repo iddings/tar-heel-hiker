@@ -34,18 +34,6 @@ define(['angular', 'ol', 'ResizeSensor'], function(angular, ol, ResizeSensor){
         
         olMap.styles = {
             
-            'activeNode': new ol.style.Style({
-                image: new ol.style.Circle({
-                    radius: 7,
-                    snapToPixel: false,
-                    fill: new ol.style.Fill({color: 'blue'}),
-                    stroke: new ol.style.Stroke({
-                        color: 'white',
-                        width: 2
-                    })
-                })
-            }),
-            
             'node': new ol.style.Style({
                 image: new ol.style.Circle({
                     radius: 7,
@@ -60,44 +48,22 @@ define(['angular', 'ol', 'ResizeSensor'], function(angular, ol, ResizeSensor){
             
         };
         
-        olMap.prototype.addNode = function(node) {
+        olMap.prototype.setLocation = function(location) {
+            this.vectorSource.clear();
+            this.centralCoordinate = ol.proj.fromLonLat([
+                location.longitude,
+                location.latitude
+            ], 'EPSG:3857');
             this.vectorSource.addFeature(new ol.Feature({
                 type: 'node',
-                node: node,
-                geometry: new ol.geom.Point(
-                    ol.proj.fromLonLat([
-                        node.location.longitude,
-                        node.location.latitude
-                    ], 'EPSG:3857')
-                )
+                geometry: new ol.geom.Point(this.centralCoordinate)
             }));
+            this.zoomToLocation();
         };
         
-        olMap.prototype.addNodes = function(nodes) {
-            var self = this;
-            angular.forEach(nodes, function(node){
-                self.addNode(node);
-            });
-        };
-        
-        olMap.prototype.setNodes = function(nodes) {
-            this.vectorSource.clear();
-            this.addNodes(nodes);
-        };
-        
-        olMap.prototype.setActiveNode = function(node) {
-            var self = this;
-            angular.forEach(this.vectorSource.getFeatures(), function(feature){
-                var nodeType = (node && node.id === feature.get('node').id) ? "activeNode" : "node";
-                feature.setStyle(olMap.styles[nodeType]);
-            });
-        };
-        
-        olMap.prototype.zoomToNodes = function(){
-            var extent = this.vectorSource.getExtent();
-            if (extent.indexOf(Infinity) === -1) {
-                this.map.getView().fit(extent);
-            }
+        olMap.prototype.zoomToLocation = function() {
+            this.map.getView().setCenter(this.centralCoordinate);
+            this.map.getView().setZoom(12);
         };
         
         return olMap;
@@ -125,7 +91,7 @@ define(['angular', 'ol', 'ResizeSensor'], function(angular, ol, ResizeSensor){
                 scope.map.map.setTarget(element[0]);
                 new ResizeSensor(element[0], function(){
                     scope.map.map.updateSize();
-                    scope.map.zoomToNodes();
+                    scope.map.zoomToLocation();
                 });
             }
         };

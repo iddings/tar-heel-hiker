@@ -7,6 +7,9 @@
         <link rel="stylesheet" href="/asset/hiker.css">
         <base href="/">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <!-- Origin Trial Token, feature = WebVR, origin = https://tarheelhiker.com, expires = 2017-05-05 -->
+        <meta http-equiv="origin-trial" data-feature="WebVR" data-expires="2017-05-05" content="ArX9eogGLukzeYO/p4FtsCo7czAJLQ8jI661m0yoGIHVnUkp2qsbYkayMa7vE/gSdr1B5WQiWGA8KTsJT5aKygIAAABieyJvcmlnaW4iOiJodHRwczovL3RhcmhlZWxoaWtlci5jb206NDQzIiwiZmVhdHVyZSI6IldlYlZSIiwiZXhwaXJ5IjoxNDkzOTkwMDc1LCJpc1N1YmRvbWFpbiI6dHJ1ZX0=">
     </head>
     <body>
         
@@ -19,7 +22,13 @@
         {% if DEV_ENV %}
         
         <!-- RequireJS / main app -->
-        <script src="/asset/scripts/require.js" data-main="/asset/scripts/src/main.js"></script>
+        <script src="/asset/scripts/require.js"></script>
+        <script>
+        require(["require", "/asset/scripts/config-dev.js"], function(require, config){
+            requirejs.config(config);
+            require(["src/main"]);
+        });
+        </script>
         
         {% else %}
         
